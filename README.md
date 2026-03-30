@@ -114,3 +114,9 @@ Your default browser will natively open to `http://localhost:8501`. Upload an im
 [NumPy-badge]: https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white
 [NumPy-url]: https://numpy.org/
 
+<img width="1919" height="872" alt="Screenshot 2026-03-31 032127" src="https://github.com/user-attachments/assets/383bec4c-0489-4acc-aab3-f3ca1fb011ad" />
+
+<img width="1919" height="853" alt="Screenshot 2026-03-31 032456" src="https://github.com/user-attachments/assets/ad3b5d1d-d895-4c39-9947-704141a5803d" />
+
+<img width="1919" height="864" alt="Screenshot 2026-03-31 035958" src="https://github.com/user-attachments/assets/a76da58d-f87a-4bb5-bcd8-5c45a66f5a9a" />
+
