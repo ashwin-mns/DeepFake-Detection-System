@@ -4,69 +4,125 @@ import numpy as np
 import tensorflow as tf
 import cv2
 import os
-import io
+import time
 
 from model import build_model
 
 st.set_page_config(
     page_title="Deepfake Detection",
     page_icon="🕵️",
-    layout="centered"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Custom CSS for modern design
+# Custom CSS for an ultra-modern, premium glassmorphism design
 st.markdown("""
 <style>
-    .main {
-        background-color: #0e1117;
-        color: #fafafa;
+    /* Global Background and Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+    
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
     }
-    div.stButton > button {
-        background-color: #4CAF50;
-        color: white;
-        border-radius: 8px;
-        padding: 10px 24px;
-        font-weight: bold;
-        transition: 0.3s;
-        border: none;
-        width: 100%;
+    
+    .stApp {
+        background: radial-gradient(circle at top left, #1a1a2e, #16213e, #0f3460);
+        color: #f1f1f1;
     }
-    div.stButton > button:hover {
-        background-color: #45a049;
-        transform: scale(1.02);
-    }
-    .header-style {
+
+    /* Hide Streamlit Header and Footer */
+    header {visibility: hidden;}
+    footer {visibility: hidden;}
+
+    /* Typography */
+    .title-text {
         text-align: center;
-        background: -webkit-linear-gradient(45deg, #FF6B6B, #4ECDC4);
+        background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-size: 3rem;
+        font-size: 3.5rem;
         font-weight: 800;
-        margin-bottom: 0px;
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        letter-spacing: -1px;
     }
-    .sub-header-style {
+    .subtitle-text {
         text-align: center;
-        color: #a0aec0;
+        color: #A0AEC0;
         font-size: 1.2rem;
-        margin-bottom: 30px;
+        font-weight: 300;
+        margin-bottom: 2rem;
     }
-    .result-box-fake {
-        background-color: rgba(255, 75, 75, 0.1);
+
+    /* Glassmorphism Containers */
+    .glass-container {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    /* Button Styling */
+    div.stButton > button {
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        border-radius: 30px;
+        padding: 12px 24px;
+        font-weight: 600;
+        border: none;
+        width: 100%;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 242, 254, 0.4);
+    }
+    div.stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 242, 254, 0.6);
+        color: white;
+    }
+
+    /* File Uploader override */
+    .stFileUploader > div > div {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        transition: 0.3s;
+    }
+    .stFileUploader > div > div:hover {
+        border-color: #00f2fe;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Results styling */
+    .result-fake {
+        background: linear-gradient(135deg, rgba(255,75,75,0.2) 0%, rgba(255,0,0,0.05) 100%);
         border-left: 5px solid #ff4b4b;
         padding: 20px;
-        border-radius: 5px;
+        border-radius: 10px;
         margin-top: 20px;
+        backdrop-filter: blur(5px);
     }
-    .result-box-real {
-        background-color: rgba(76, 175, 80, 0.1);
+    .result-real {
+        background: linear-gradient(135deg, rgba(76,175,80,0.2) 0%, rgba(0,255,10,0.05) 100%);
         border-left: 5px solid #4CAF50;
         padding: 20px;
-        border-radius: 5px;
+        border-radius: 10px;
         margin-top: 20px;
+        backdrop-filter: blur(5px);
+    }
+    
+    .score-text {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 10px 0;
     }
 </style>
 """, unsafe_allow_html=True)
 
+@st.cache_resource
 def load_detection_model():
     model_path = "model.h5"
     if os.path.exists(model_path):
@@ -76,62 +132,103 @@ def load_detection_model():
 
 model = load_detection_model()
 
-st.markdown('<p class="header-style">Deepfake Detector 🕵️</p>', unsafe_allow_html=True)
-st.markdown('<p class="sub-header-style">Upload an image to detect if it\'s authentic or AI-generated.</p>', unsafe_allow_html=True)
+# --- Sidebar ---
+with st.sidebar:
+    st.image("https://cdn-icons-png.flaticon.com/512/11833/11833323.png", width=80)
+    st.markdown("## Deepfake Forensics")
+    st.markdown("Use cutting-edge Deep Learning to detect facial manipulations.")
+    
+    st.markdown("---")
+    st.markdown("### 🔬 How it works")
+    st.markdown("""
+    1. **Upload** an image containing a face.
+    2. **Analysis**: The system analyzes pixel-level anomalies & artifacts.
+    3. **CNN Engine**: A trained Neural Network predicts the authenticity.
+    """)
+    st.markdown("---")
+    st.info("Tip: Ensure the image clearly shows a face for the highest accuracy.")
 
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+# --- Main Layout ---
+st.markdown('<p class="title-text">Deepfake Detector</p>', unsafe_allow_html=True)
+st.markdown('<p class="subtitle-text">Empowering trust in digital media through AI.</p>', unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns([1, 2, 1])
+
+with col2:
+    st.markdown('<div class="glass-container">', unsafe_allow_html=True)
+    uploaded_file = st.file_uploader("Drop an image to scan", type=["jpg", "jpeg", "png"])
+    st.markdown('</div>', unsafe_allow_html=True)
 
 if uploaded_file is not None:
-    # Display image
     image = Image.open(uploaded_file).convert("RGB")
     
-    col1, col2, col3 = st.columns([1,2,1])
-    with col2:
-        st.image(image, caption='Uploaded Document', use_container_width=True)
-
-    if st.button("Start Analysis 🔍"):
-        with st.spinner('Analyzing facial artifacts and inconsistencies...'):
-            try:
-                # Preprocess image
-                img_array = np.array(image)
-                # Convert to BGR for cv2 compatibility mostly if model expects it, 
-                # but standard models usually expect RGB. Let's keep RGB for TF defaults
-                # Resize to (224, 224)
-                img_resized = cv2.resize(img_array, (224, 224))
-                
-                # Normalize
-                img_normalized = img_resized / 255.0
-                
-                # Expand dims (batch size = 1)
-                img_input = np.expand_dims(img_normalized, axis=0)
-                
-                # Predict
-                prediction = model.predict(img_input)[0][0]
-                
-                # Determine Result
-                is_fake = prediction > 0.5
-                confidence = prediction if is_fake else 1 - prediction
-                
-                # Display output beautifully
-                if is_fake:
-                    st.markdown(f'''
-                    <div class="result-box-fake">
-                        <h2 style="color: #ff4b4b; margin:0;">🚨 Warning: Deepfake Detected (Fake)</h2>
-                        <p style="font-size: 1.2rem; margin-top:10px;">Confidence Score: <strong>{confidence*100:.2f}%</strong></p>
-                    </div>
-                    ''', unsafe_allow_html=True)
-                    st.error("Our models have detected artificial manipulation in this media.")
+    # Create two columns for display and results once uploaded
+    st.markdown("---")
+    disp_col, res_col = st.columns([1.2, 1])
+    
+    with disp_col:
+        st.markdown("### 🖼️ Source Media")
+        st.image(image, use_container_width=True, caption="Uploaded Document")
+        
+    with res_col:
+        st.markdown("### 📊 Analysis Report")
+        analyze_button = st.button("Run Forensic Analysis 🔍")
+        
+        if analyze_button:
+            # Fake a loading bar for better UX feeling
+            my_bar = st.progress(0, text="Initializing tensor arrays...")
+            for percent_complete in range(100):
+                time.sleep(0.015)
+                # Change text dynamically
+                if percent_complete < 30:
+                    my_bar.progress(percent_complete + 1, text="Analyzing facial artifacts...")
+                elif percent_complete < 70:
+                    my_bar.progress(percent_complete + 1, text="Checking pixel gradients...")
                 else:
-                    st.markdown(f'''
-                    <div class="result-box-real">
-                        <h2 style="color: #4CAF50; margin:0;">✅ Authentic Media (Real)</h2>
-                        <p style="font-size: 1.2rem; margin-top:10px;">Confidence Score: <strong>{confidence*100:.2f}%</strong></p>
-                    </div>
-                    ''', unsafe_allow_html=True)
-                    st.success("This media appears to be genuine and unmodified.")
+                    my_bar.progress(percent_complete + 1, text="Computing final probabilities...")
+            
+            my_bar.empty()
+            
+            with st.spinner('Compiling final report...'):
+                try:
+                    # Preprocess image
+                    img_array = np.array(image)
+                    img_resized = cv2.resize(img_array, (224, 224))
+                    img_normalized = img_resized / 255.0
+                    img_input = np.expand_dims(img_normalized, axis=0)
                     
-            except Exception as e:
-                st.error(f"Error during processing: {e}")
+                    # Predict
+                    prediction = model.predict(img_input)[0][0]
+                    is_fake = prediction > 0.5
+                    confidence = prediction if is_fake else 1 - prediction
+                    
+                    # Display output beautifully
+                    if is_fake:
+                        st.markdown(f'''
+                        <div class="result-fake">
+                            <h3 style="color: #ff4b4b; margin:0;">🚨 Deepfake Detected</h3>
+                            <p class="score-text" style="color: #ff4b4b;">{confidence*100:.2f}%</p>
+                            <p style="margin:0; color: #f1f1f1;">High likelihood of synthetic manipulation.</p>
+                        </div>
+                        ''', unsafe_allow_html=True)
+                    else:
+                        st.markdown(f'''
+                        <div class="result-real">
+                            <h3 style="color: #4CAF50; margin:0;">✅ Authentic Media</h3>
+                            <p class="score-text" style="color: #4CAF50;">{confidence*100:.2f}%</p>
+                            <p style="margin:0; color: #f1f1f1;">No significant signs of manipulation found.</p>
+                        </div>
+                        ''', unsafe_allow_html=True)
+                        
+                    # Add detailed metrics
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    st.markdown("#### Confidence Metrics")
+                    m1, m2 = st.columns(2)
+                    m1.metric(label="Real Probability", value=f"{((1-prediction)*100):.1f}%")
+                    m2.metric(label="Fake Probability", value=f"{(prediction*100):.1f}%")
 
-st.markdown("---")
-st.markdown("<small style='text-align: center; display: block;'>Powered by Deep Learning & Convolutional Neural Networks</small>", unsafe_allow_html=True)
+                except Exception as e:
+                    st.error(f"Error during processing: {e}")
+
+st.markdown("<br><br><br>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #4a5568; font-size: 0.85rem;'>Deepfake Detection System • Built with TensorFlow & Streamlit</p>", unsafe_allow_html=True)
