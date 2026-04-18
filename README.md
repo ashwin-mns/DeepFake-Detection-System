@@ -6,6 +6,8 @@
 
 ---
 
+https://deepfake-detection-system-er8wlzhlbzdyej7av2syaj.streamlit.app/
+
 ## 📖 About The Project
 
 As synthetic media and "deepfakes" become increasingly hyper-realistic, distinguishing genuine content from artificially generated media is harder than ever. This project provides an end-to-end deep learning pipeline to train a Convolutional Neural Network (CNN) for detecting facial manipulations, bundled with a stunning, modern **glassmorphic light-theme Web UI** for seamless user interaction.
