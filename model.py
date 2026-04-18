@@ -1,24 +1,27 @@
 import tensorflow as tf
 from tensorflow.keras import layers, models
 import os
+import random
 
 def build_model():
+    # Use MobileNetV2 as a base model for Transfer Learning
+    base_model = tf.keras.applications.MobileNetV2(
+        input_shape=(224, 224, 3),
+        include_top=False,
+        weights='imagenet'
+    )
+    # Freeze the base model to retain learned features
+    base_model.trainable = False
+
     model = models.Sequential([
-        layers.Conv2D(32, (3,3), activation='relu', input_shape=(224,224,3)),
-        layers.MaxPooling2D(2,2),
-
-        layers.Conv2D(64, (3,3), activation='relu'),
-        layers.MaxPooling2D(2,2),
-
-        layers.Conv2D(128, (3,3), activation='relu'),
-        layers.MaxPooling2D(2,2),
-
-        layers.Flatten(),
+        base_model,
+        layers.GlobalAveragePooling2D(),
         layers.Dense(128, activation='relu'),
+        layers.Dropout(0.5),
         layers.Dense(1, activation='sigmoid')
     ])
 
-    model.compile(optimizer='adam',
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
     return model
@@ -71,6 +74,16 @@ if __name__ == "__main__":
         # Load all image paths
         real_images = glob.glob(os.path.join(dataset_dir, "real", "*.jpg")) + glob.glob(os.path.join(dataset_dir, "real", "*.png"))
         fake_images = glob.glob(os.path.join(dataset_dir, "fake", "*.jpg")) + glob.glob(os.path.join(dataset_dir, "fake", "*.png"))
+        
+        print(f"Original Dataset: {len(real_images)} Real, {len(fake_images)} Fake.")
+        
+        # Downsample the majority class to balance the dataset 1:1 perfectly!
+        if len(fake_images) > len(real_images) and len(real_images) > 0:
+            fake_images = random.sample(fake_images, len(real_images))
+        elif len(real_images) > len(fake_images) and len(fake_images) > 0:
+            real_images = random.sample(real_images, len(fake_images))
+            
+        print(f"Balanced Dataset for Training: {len(real_images)} Real, {len(fake_images)} Fake.")
         
         # Create full dataset lists. 0 = Real, 1 = Fake
         all_paths = real_images + fake_images

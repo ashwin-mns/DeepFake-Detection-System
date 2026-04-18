@@ -26,8 +26,7 @@ st.markdown("""
     }
     
     .stApp {
-        background: radial-gradient(circle at top left, #1a1a2e, #16213e, #0f3460);
-        color: #f1f1f1;
+        background: radial-gradient(circle at top left, #f4f7fb, #eef2f6, #e2e8f0);
     }
 
     /* Hide Streamlit Header and Footer */
@@ -37,7 +36,7 @@ st.markdown("""
     /* Typography */
     .title-text {
         text-align: center;
-        background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%);
+        background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-size: 3.5rem;
@@ -48,7 +47,7 @@ st.markdown("""
     }
     .subtitle-text {
         text-align: center;
-        color: #A0AEC0;
+        color: #718096;
         font-size: 1.2rem;
         font-weight: 300;
         margin-bottom: 2rem;
@@ -56,14 +55,14 @@ st.markdown("""
 
     /* Glassmorphism Containers */
     .glass-container {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.45);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         border-radius: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.6);
         padding: 25px;
         margin-bottom: 20px;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
     }
 
     /* Button Styling */
@@ -86,32 +85,34 @@ st.markdown("""
 
     /* File Uploader override */
     .stFileUploader > div > div {
-        background: rgba(255, 255, 255, 0.03);
-        border: 2px dashed rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.5);
+        border: 2px dashed rgba(74, 85, 104, 0.3);
         border-radius: 15px;
         transition: 0.3s;
     }
     .stFileUploader > div > div:hover {
         border-color: #00f2fe;
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.8);
     }
 
     /* Results styling */
     .result-fake {
-        background: linear-gradient(135deg, rgba(255,75,75,0.2) 0%, rgba(255,0,0,0.05) 100%);
+        background: rgba(255, 255, 255, 0.6);
         border-left: 5px solid #ff4b4b;
         padding: 20px;
         border-radius: 10px;
         margin-top: 20px;
-        backdrop-filter: blur(5px);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(255, 75, 75, 0.1);
     }
     .result-real {
-        background: linear-gradient(135deg, rgba(76,175,80,0.2) 0%, rgba(0,255,10,0.05) 100%);
+        background: rgba(255, 255, 255, 0.6);
         border-left: 5px solid #4CAF50;
         padding: 20px;
         border-radius: 10px;
         margin-top: 20px;
-        backdrop-filter: blur(5px);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.1);
     }
     
     .score-text {
@@ -208,7 +209,7 @@ if uploaded_file is not None:
                         <div class="result-fake">
                             <h3 style="color: #ff4b4b; margin:0;">🚨 Deepfake Detected</h3>
                             <p class="score-text" style="color: #ff4b4b;">{confidence*100:.2f}%</p>
-                            <p style="margin:0; color: #f1f1f1;">High likelihood of synthetic manipulation.</p>
+                            <p style="margin:0; color: #4a5568;">High likelihood of synthetic manipulation.</p>
                         </div>
                         ''', unsafe_allow_html=True)
                     else:
@@ -216,7 +217,7 @@ if uploaded_file is not None:
                         <div class="result-real">
                             <h3 style="color: #4CAF50; margin:0;">✅ Authentic Media</h3>
                             <p class="score-text" style="color: #4CAF50;">{confidence*100:.2f}%</p>
-                            <p style="margin:0; color: #f1f1f1;">No significant signs of manipulation found.</p>
+                            <p style="margin:0; color: #4a5568;">No significant signs of manipulation found.</p>
                         </div>
                         ''', unsafe_allow_html=True)
                         
