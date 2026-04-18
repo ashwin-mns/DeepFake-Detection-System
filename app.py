@@ -169,7 +169,7 @@ if uploaded_file is not None:
     
     with disp_col:
         st.markdown("### 🖼️ Source Media")
-        st.image(image, use_container_width=True, caption="Uploaded Document")
+        st.image(image, use_column_width=True, caption="Uploaded Document")
         
     with res_col:
         st.markdown("### 📊 Analysis Report")
