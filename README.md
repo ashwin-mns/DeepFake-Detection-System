@@ -88,6 +88,12 @@ streamlit run app.py
 ```
 Your default browser will natively open to `http://localhost:8501`. 
 
+## ☁️ Cloud Deployment & Production
+
+The live link provided at the top of this documentation is hosted using **Streamlit Community Cloud**. 
+- **Pre-Trained Weights:** The repository includes a highly optimized, fully trained `model.h5` (~22MB) which allows the live web application to classify images accurately without needing to train on the cloud server.
+- **Git Tracking:** The `model.h5` file was explicitly removed from `.gitignore` so that GitHub could track the weights and automatically deploy the intelligence to the live production environment.
+
 ## 💡 Usage Guide
 
 With the new multi-tab dashboard interface, the system operates across 4 primary layers:
