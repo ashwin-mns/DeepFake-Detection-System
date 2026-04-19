@@ -10,18 +10,32 @@ def build_model():
         include_top=False,
         weights='imagenet'
     )
-    # Freeze the base model to retain learned features
-    base_model.trainable = False
+    
+    # 1. FINE-TUNING: Unfreeze the last 20 layers to learn deepfake-specific features
+    base_model.trainable = True
+    for layer in base_model.layers[:-20]:
+        layer.trainable = False
+
+    # 2. DATA AUGMENTATION: Helps prevent overfitting by artificially expanding the dataset
+    data_augmentation = tf.keras.Sequential([
+        layers.RandomFlip("horizontal"),
+        layers.RandomRotation(0.1),
+        layers.RandomZoom(0.1),
+    ])
 
     model = models.Sequential([
+        data_augmentation,
         base_model,
         layers.GlobalAveragePooling2D(),
+        layers.Dense(256, activation='relu'),  # Slightly larger dense layer
+        layers.Dropout(0.5),                   # Dropout to prevent overfitting
         layers.Dense(128, activation='relu'),
-        layers.Dropout(0.5),
+        layers.Dropout(0.3),
         layers.Dense(1, activation='sigmoid')
     ])
 
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+    # 3. LOWER LEARNING RATE: Crucial when fine-tuning a pre-trained model
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), 
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
     return model
@@ -130,11 +144,19 @@ if __name__ == "__main__":
         val_ds = val_ds.batch(batch_size).prefetch(tf.data.AUTOTUNE)
 
         print("\nStarting Keras Model Training...")
-        epochs = 5
+        epochs = 20  # Increased maximum epochs
+        
+        # 4. CALLBACKS: Stop early if it stops improving, and reduce learning rate if stagnating
+        callbacks = [
+            tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=4, restore_best_weights=True, verbose=1),
+            tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=2, min_lr=1e-6, verbose=1)
+        ]
+
         history = model.fit(
             train_ds,
             validation_data=val_ds,
-            epochs=epochs
+            epochs=epochs,
+            callbacks=callbacks
         )
         
         model_path = "model.h5"
