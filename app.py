@@ -27,15 +27,18 @@ st.markdown("""
     }
     
     .stApp {
-        background-color: #f7fafc;
+        background: linear-gradient(135deg, #dfc6ff 0%, #c4e0ff 100%);
+        background-attachment: fixed;
     }
 
     .metric-card {
-        background: white;
+        background: rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border-radius: 12px;
         padding: 20px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        border: 1px solid #e2e8f0;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.4);
         margin-bottom: 20px;
     }
     
@@ -47,36 +50,39 @@ st.markdown("""
     .metric-label {
         font-size: 0.875rem;
         font-weight: 500;
-        color: #718096;
+        color: #4a5568;
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
 
     .glass-container {
-        background: white;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         border-radius: 16px;
         padding: 30px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
     
     .result-fake {
-        background: #fff5f5;
-        border: 1px solid #fed7d7;
+        background: rgba(255, 245, 245, 0.6);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(254, 215, 215, 0.6);
         border-left: 6px solid #e53e3e;
         padding: 20px;
         border-radius: 8px;
         margin-top: 20px;
     }
     .result-real {
-        background: #f0fff4;
-        border: 1px solid #c6f6d5;
+        background: rgba(240, 255, 244, 0.6);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(198, 246, 213, 0.6);
         border-left: 6px solid #38a169;
         padding: 20px;
         border-radius: 8px;
         margin-top: 20px;
-    }
-    
+    }    
     .stButton > button {
         background-color: #2b6cb0;
         color: white;
