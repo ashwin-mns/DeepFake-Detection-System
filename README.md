@@ -1,23 +1,25 @@
-<h1 align="center">🕵️ Deepfake Detection System</h1>
+<h1 align="center">🛡️ Enterprise Deepfake Forensics System</h1>
 
 <p align="center">
-  <strong>A premium, light-themed web application to detect authentic vs. manipulated media using Deep Learning.</strong>
+  <strong>An enterprise-grade web application to detect authentic vs. manipulated media using Deep Learning and CNNs.</strong>
 </p>
 
 ---
 
-https://deepfake-detection-system-er8wlzhlbzdyej7av2syaj.streamlit.app/
+**Live Demonstration:** [https://deepfake-detection-system-er8wlzhlbzdyej7av2syaj.streamlit.app/](https://deepfake-detection-system-er8wlzhlbzdyej7av2syaj.streamlit.app/)
 
 ## 📖 About The Project
 
-As synthetic media and "deepfakes" become increasingly hyper-realistic, distinguishing genuine content from artificially generated media is harder than ever. This project provides an end-to-end deep learning pipeline to train a Convolutional Neural Network (CNN) for detecting facial manipulations, bundled with a stunning, modern **glassmorphic light-theme Web UI** for seamless user interaction.
+As synthetic media and "deepfakes" become increasingly hyper-realistic, distinguishing genuine content from artificially generated media is critical for security and trust. This project provides an end-to-end deep learning pipeline to train a Convolutional Neural Network (CNN) for detecting facial manipulations. 
+
+It is bundled with a stunning, modern **Enterprise Command Center UI** featuring live threat analytics, an interactive scanner, system logs, and a local persistence engine to safely store your forensic scan history.
 
 ### ✨ Key Features
-- **Premium Glassmorphic UI:** A beautifully designed, vibrant, light-themed interface built with Streamlit, custom CSS, and modern visual aesthetics.
+- **Professional Command Center UI:** A highly polished, corporate dashboard built with Streamlit, custom CSS, and multiple tabs (Scanner, Analytics, Logs, History).
+- **Persistent Scan Database:** Automatically records all scans and confidence scores locally into a `.csv` storage system, allowing users to recall and analyze past results.
 - **End-to-End Pipeline:** Standardized scripts handling video frame extraction, model training, and real-time inference.
 - **Automated Data Splitting:** The training script automatically performs an optimal 80/20 train/test split.
-- **Smart Fallback Engine:** If an extensive dataset is missing, the system auto-generates a compiled placeholder model so you can still launch and explore the UI.
-- **Comprehensive Analysis Dashboard:** The application provides intuitive visual cues, binary classification (Authentic vs. Fake), and a detailed probability breakdown.
+- **Fine-Tuned Sensitivity Control:** Includes an adjustable slider to manually set the threat-detection threshold limit during live scans.
 
 ## 🛠️ Built With
 
@@ -31,15 +33,16 @@ As synthetic media and "deepfakes" become increasingly hyper-realistic, distingu
 ```text
 Deepfake/
 ├── .streamlit/
-│   └── config.toml         # Forces Streamlit's premium light theme
+│   └── config.toml         # Dashboard theme configuration
 ├── dataset/
-│   ├── real/               # Directory for authentic images/videos
-│   └── fake/               # Directory for manipulated images/videos
-├── app.py                  # Streamlit web application & UI components
+│   ├── real/               # Directory for authentic training data
+│   └── fake/               # Directory for manipulated training data
+├── app.py                  # Streamlit Enterprise Command Center & UI components
 ├── model.py                # CNN architecture and training logic
 ├── process_videos.py       # Utility to extract frames from .mp4 files
 ├── requirements.txt        # Python dependencies
-└── model.h5                # Trained Keras model (Generated)
+├── scan_history.csv        # Automatically generated local database for previous scans
+└── model.h5                # Trained Keras model parameters (Generated)
 ```
 
 ## 🚀 Getting Started
@@ -57,10 +60,10 @@ pip install -r requirements.txt
 ```
 
 ### 3. Preparing the Dataset
-To train a highly accurate model, you need a dataset (e.g., FaceForensics++, Kaggle Deepfake Challenge dataset).
+To train a highly accurate model, you need a dataset (e.g., FaceForensics++, Kaggle Deepfake Challenge).
 
-1. Ensure the `dataset/real` and `dataset/fake` directories exist in the project root.
-2. Place your raw `.mp4` video files or `.jpg`/`.png` images inside their respective folders.
+1. Ensure the `dataset/real` and `dataset/fake` directories exist.
+2. Place your raw `.mp4` video files or `.jpg`/`.png` images inside.
 
 **If using video files:** Extract frames by running the preprocessing script:
 ```bash
@@ -69,37 +72,38 @@ python process_videos.py
 *(This extracts 3 frames per video to build your image dataset pipeline).*
 
 ### 4. Training the Model
-Once your data is populated, initiate the training process:
+Initiate the training process:
 
 ```bash
 python model.py
 ```
-- The script automatically processes the internal images and yields an 80/20 train/validation split.
-- It trains a custom CNN for 5 epochs.
-- It evaluates the testing dataset and saves the learned weights to `model.h5`.
-- *(Note: If no dataset is found, it compiles an untrained model to allow UI testing).*
+- Automatically processes images and creates an 80/20 train/validation split.
+- Saves learned weights to `model.h5`.
 
-### 5. Running the Web UI
-Launch the sleek Streamlit dashboard to interact with your trained model:
+### 5. Running the Command Center
+Launch the Streamlit dashboard to interact with your trained model:
 
 ```bash
 streamlit run app.py
 ```
-Your default browser will natively open to `http://localhost:8501`. Upload an image containing a face and run the forensic analysis!
+Your default browser will natively open to `http://localhost:8501`. 
 
 ## 💡 Usage Guide
 
-1. **Upload Media:** Drag and drop a standard image file (JPG/PNG) into the designated glassmorphic drop zone.
-2. **Review Upload:** The source image will be displayed on the left pane of the analysis layout.
-3. **Run Forensics:** Click the **"Run Forensic Analysis 🔍"** button.
-4. **View Results:** The system intelligently simulates deep artifact analysis and presents a clear **Authentic** or **Deepfake Detected** categorization along with mathematically computed confidence metrics.
+With the new multi-tab dashboard interface, the system operates across 4 primary layers:
 
-## 🔭 Future Roadmap
+1. **Scanner Tab:** Drag & drop a standard image file (JPG/PNG). Click the **Initialize Scan 🔍** button to trigger the analysis sequence. The pipeline predicts authenticity and confidence ratings.
+2. **Scan History Tab:** View a permanent, tabular log of all previously scanned images, including their exact timestamps and detection results.
+3. **Analytics Dashboard Tab:** Observe hypothetical global metrics such as system latency, total processing volume, and threat prevention charts.
+4. **System Logs Tab:** An emulated server tail log to view backend authentication nodes, spatial dimension extractions, and model synchronizations.
 
-- [ ] Implement advanced architectures like **ResNet50** or **EfficientNet** for superior feature extraction.
-- [ ] Integrate a dedicated face-cropping pipeline (e.g., MTCNN, MediaPipe) before sending images to the classification model.
-- [ ] Support direct video `.mp4` uploads and frame-by-frame temporal analysis in the web app.
-- [ ] Add explainability overlays (e.g., Grad-CAM) to intuitively highlight manipulated regions of the face.
+## 🔭 Future Roadmap (Upcoming Enhancements)
+
+- [ ] **Direct Video Analysis:** Allow users to directly upload `.mp4` files into the UI for frame-by-frame temporal analysis.
+- [ ] **Explainable AI (XAI) Overlay:** Implement **Grad-CAM heatmaps** to visually highlight *exactly* which pixels or facial regions triggered the deepfake alert.
+- [ ] **Automated Face Cropping Engine:** Integrate **MediaPipe / MTCNN** to automatically isolate the human face in an image before running it through the CNN logic.
+- [ ] **Export to PDF Security Reports:** A new button to dynamically generate and download a branded PDF file certifying the authenticity results of a given document.
+- [ ] **Bulk/Batch Operations:** Facilitate the bulk upload of `.zip` files allowing researchers to analyze thousands of files silently in the background.
 
 ---
 <p align="center">
