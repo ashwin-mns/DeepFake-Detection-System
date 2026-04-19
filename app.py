@@ -169,7 +169,7 @@ with tab1:
         
         with disp_col:
             st.markdown("#### Source Artifact")
-            st.image(image, use_column_width=True, caption=f"File: {uploaded_file.name}")
+            st.image(image, use_container_width=True, caption=f"File: {uploaded_file.name}")
             col_a, col_b = st.columns(2)
             col_a.metric("Resolution", f"{image.size[0]}x{image.size[1]}")
             col_b.metric("Color Space", image.mode)
