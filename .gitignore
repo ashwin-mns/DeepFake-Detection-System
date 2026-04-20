@@ -1,2 +1,5 @@
 __pycache__/
 dataset/
+
+# App Data
+scan_history.csv
