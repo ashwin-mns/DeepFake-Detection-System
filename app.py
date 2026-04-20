@@ -103,7 +103,16 @@ st.markdown("""
 def load_detection_model():
     model_path = "model.h5"
     if os.path.exists(model_path):
-        return tf.keras.models.load_model(model_path)
+        try:
+            # Try loading directly, with compile=False to bypass metric/optimizer loading errors
+            return tf.keras.models.load_model(model_path, compile=False)
+        except Exception as e:
+            # Fallback for Keras version mismatch (e.g., Keras 2 -> Keras 3):
+            # Rebuild the exact architecture locally and just load the learned weights
+            print(f"Warning: Direct model load failed ({e}). Falling back to weights-only load.")
+            model = build_model()
+            model.load_weights(model_path)
+            return model
     return build_model()
 
 model = load_detection_model()
