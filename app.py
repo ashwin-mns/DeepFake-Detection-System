@@ -154,7 +154,7 @@ with st.sidebar:
     st.markdown("### Threat Intelligence")
     st.markdown('<p style="color:#718096; font-size:0.9rem;">Enterprise Deepfake Forensics</p>', unsafe_allow_html=True)
     st.markdown("---")
-    st.info("System Status: **ONLINE**\\n\\nLatency: 24ms\\n\\nModel Version: v2.1.4")
+    st.info("System Status: **ONLINE**\n\nLatency: ~24ms\n\nModel Version: v2.1.4")
     st.markdown("---")
     st.markdown("### Settings")
     sensitivity = st.slider("Detection Threshold", 0.0, 1.0, 0.5, help="Lower values flag more images as fake. Higher values restrict flags to highest confidence only.")
