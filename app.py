@@ -111,6 +111,12 @@ def load_detection_model():
             # Rebuild the exact architecture locally and just load the learned weights
             print(f"Warning: Direct model load failed ({e}). Falling back to weights-only load.")
             model = build_model()
+            
+            # Force the model to fully initialize its internal layer shapes 
+            # (Solves "ValueError: ... model with 0 layers" in Keras 3)
+            dummy_input = np.zeros((1, 224, 224, 3), dtype=np.float32)
+            model.predict(dummy_input, verbose=0)
+            
             model.load_weights(model_path)
             return model
     return build_model()
