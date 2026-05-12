@@ -1,4 +1,4 @@
-<h1 align="center">🛡️ Enterprise Deepfake Forensics System</h1>
+<h1 align="center">🛡️ Deepfake Detection System</h1>
 
 <p align="center">
   <strong>An enterprise-grade web application to detect authentic vs. manipulated media using Deep Learning and CNNs.</strong>

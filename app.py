@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageChops
 import numpy as np
 import tensorflow as tf
 import cv2
@@ -98,6 +98,22 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
+def perform_ela(image, quality=90):
+    img = image.convert('RGB')
+    temp_filename = 'temp_ela.jpg'
+    img.save(temp_filename, 'JPEG', quality=quality)
+    temp_img = Image.open(temp_filename)
+    ela_image = ImageChops.difference(img, temp_img)
+    extrema = ela_image.getextrema()
+    max_diff = max([ex[1] for ex in extrema])
+    if max_diff == 0:
+        max_diff = 1
+    scale = 255.0 / max_diff
+    ela_image = ImageEnhance.Brightness(ela_image).enhance(scale)
+    temp_img.close()
+    os.remove(temp_filename)
+    return ela_image
 
 @st.cache_resource
 def load_detection_model():
@@ -218,7 +234,7 @@ with tab1:
                     try:
                         img_array = np.array(image)
                         img_resized = cv2.resize(img_array, (224, 224))
-                        img_normalized = img_resized / 255.0
+                        img_normalized = (img_resized / 127.5) - 1.0
                         img_input = np.expand_dims(img_normalized, axis=0)
                         
                         prediction = model.predict(img_input)[0][0]
@@ -252,6 +268,12 @@ with tab1:
                         st.progress(float(prediction))
                         st.markdown(f"**Texture Inconsistency**")
                         st.progress(float(abs(prediction - 0.2) if prediction > 0.5 else prediction * 0.5))
+                        
+                        st.markdown("---")
+                        st.markdown("#### 🔍 Error Level Analysis (ELA) Sub-System")
+                        st.markdown('<p style="color:#718096; font-size:0.85rem;">ELA exposes varying levels of JPEG compression. Distinct glowing clusters or harsh edges separating the face from the background indicate pixel compositing (Deepfakes).</p>', unsafe_allow_html=True)
+                        ela_result = perform_ela(image, quality=90)
+                        st.image(ela_result, use_column_width=True, caption="ELA Forensic Heatmap")
                         
                     except Exception as e:
                         st.error(f"Execution Error: {e}")
