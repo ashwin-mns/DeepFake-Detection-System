@@ -125,3 +125,8 @@ With the new multi-tab dashboard interface, the system operates across 4 primary
 [OpenCV-url]: https://opencv.org/
 [NumPy-badge]: https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white
 [NumPy-url]: https://numpy.org/
+
+## Copyright Notice
+Copyright © 2026 Ashwin T. All Rights Reserved.
+
+This project is proprietary and may not be copied, modified, or distributed without written permission.
