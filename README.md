@@ -117,14 +117,13 @@ With the new multi-tab dashboard interface, the system operates across 4 primary
 </p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[TensorFlow-badge]: https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white
-[TensorFlow-url]: https://www.tensorflow.org/
-[Streamlit-badge]: https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white
-[Streamlit-url]: https://streamlit.io/
-[OpenCV-badge]: https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white
-[OpenCV-url]: https://opencv.org/
-[NumPy-badge]: https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white
-[NumPy-url]: https://numpy.org/
+<img width="1919" height="849" alt="Screenshot 2026-05-14 235003" src="https://github.com/user-attachments/assets/d4bc773e-7b46-4f20-9d5f-9c3faaf52122" />
+<img width="1919" height="861" alt="Screenshot 2026-05-14 235149" src="https://github.com/user-attachments/assets/9d27ab48-c889-4495-bbed-78c1f6f9d1c3" />
+<img width="1919" height="861" alt="Screenshot 2026-05-14 235233" src="https://github.com/user-attachments/assets/fd75dc67-1758-4e44-95c1-8622b542aee5" />
+<img width="1919" height="858" alt="Screenshot 2026-05-14 235314" src="https://github.com/user-attachments/assets/4e52f107-82ee-43be-b816-54285252fa11" />
+
+
+
 
 ## Copyright Notice
 Copyright © 2026 Ashwin T. All Rights Reserved.
