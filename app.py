@@ -27,73 +27,76 @@ st.markdown("""
     }
     
     .stApp {
-        background: linear-gradient(135deg, #dfc6ff 0%, #c4e0ff 100%);
+        background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
         background-attachment: fixed;
     }
 
     .metric-card {
-        background: rgba(255, 255, 255, 0.35);
+        background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         border-radius: 12px;
         padding: 20px;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         margin-bottom: 20px;
     }
     
     .metric-value {
         font-size: 2rem;
         font-weight: 700;
-        color: #1a202c;
+        color: #ffffff;
     }
     .metric-label {
         font-size: 0.875rem;
         font-weight: 500;
-        color: #4a5568;
+        color: #a0aec0;
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
 
     .glass-container {
-        background: rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border-radius: 16px;
         padding: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
     
     .result-fake {
-        background: rgba(255, 245, 245, 0.6);
+        background: rgba(229, 62, 62, 0.15);
         backdrop-filter: blur(10px);
-        border: 1px solid rgba(254, 215, 215, 0.6);
-        border-left: 6px solid #e53e3e;
+        border: 1px solid rgba(229, 62, 62, 0.3);
+        border-left: 6px solid #fc8181;
         padding: 20px;
         border-radius: 8px;
         margin-top: 20px;
     }
     .result-real {
-        background: rgba(240, 255, 244, 0.6);
+        background: rgba(56, 161, 105, 0.15);
         backdrop-filter: blur(10px);
-        border: 1px solid rgba(198, 246, 213, 0.6);
-        border-left: 6px solid #38a169;
+        border: 1px solid rgba(56, 161, 105, 0.3);
+        border-left: 6px solid #68d391;
         padding: 20px;
         border-radius: 8px;
         margin-top: 20px;
     }    
     .stButton > button {
-        background-color: #2b6cb0;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         color: white;
         border-radius: 8px;
         font-weight: 600;
         padding: 10px 24px;
-        border: none;
         transition: all 0.2s;
     }
     .stButton > button:hover {
-        background-color: #2c5282;
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         color: white;
     }
 </style>
@@ -168,7 +171,7 @@ def load_scan_history():
 with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/2885/2885412.png", width=60)
     st.markdown("### Threat Intelligence")
-    st.markdown('<p style="color:#718096; font-size:0.9rem;">Enterprise Deepfake Forensics</p>', unsafe_allow_html=True)
+    st.markdown('<p style="color:#a0aec0; font-size:0.9rem;">Enterprise Deepfake Forensics</p>', unsafe_allow_html=True)
     st.markdown("---")
     st.info("System Status: **ONLINE**\n\nLatency: ~24ms\n\nModel Version: v2.1.4")
     st.markdown("---")
@@ -177,8 +180,8 @@ with st.sidebar:
     high_perf = st.toggle("Accelerated Scanning", value=True)
 
 # --- Header ---
-st.markdown('<h2 style="color:#1a202c; font-weight:800; margin-bottom: 0;">Command Center</h2>', unsafe_allow_html=True)
-st.markdown(f'<p style="color:#718096; margin-bottom: 30px;">Live operations dashboard session active — {datetime.now().strftime("%Y-%m-%d %H:%M")}</p>', unsafe_allow_html=True)
+st.markdown('<h2 style="color:#ffffff; font-weight:800; margin-bottom: 0;">Command Center</h2>', unsafe_allow_html=True)
+st.markdown(f'<p style="color:#a0aec0; margin-bottom: 30px;">Live operations dashboard session active — {datetime.now().strftime("%Y-%m-%d %H:%M")}</p>', unsafe_allow_html=True)
 
 # --- Tabs ---
 tab1, tab2, tab3, tab4 = st.tabs(["Scanner", "Scan History", "Analytics Dashboard", "System Logs"])
@@ -249,17 +252,17 @@ with tab1:
                         if is_fake:
                             st.markdown(f'''
                             <div class="result-fake">
-                                <h4 style="color: #c53030; margin:0; display: flex; align-items: center;">⚠️ CRITICAL: SYNTHETIC MEDIA DETECTED</h4>
-                                <h1 style="color: #e53e3e; margin: 10px 0;">{confidence*100:.2f}% Match</h1>
-                                <p style="margin:0; color: #742a2a;">The model has identified anomalous facial warping and unnatural gradient artifacts.</p>
+                                <h4 style="color: #fc8181; margin:0; display: flex; align-items: center;">⚠️ CRITICAL: SYNTHETIC MEDIA DETECTED</h4>
+                                <h1 style="color: #feb2b2; margin: 10px 0;">{confidence*100:.2f}% Match</h1>
+                                <p style="margin:0; color: #fed7d7;">The model has identified anomalous facial warping and unnatural gradient artifacts.</p>
                             </div>
                             ''', unsafe_allow_html=True)
                         else:
                             st.markdown(f'''
                             <div class="result-real">
-                                <h4 style="color: #276749; margin:0; display: flex; align-items: center;">✔️ VERIFIED: AUTHENTIC MEDIA</h4>
-                                <h1 style="color: #38a169; margin: 10px 0;">{confidence*100:.2f}% Match</h1>
-                                <p style="margin:0; color: #22543d;">No statistically significant manipulations detected in the source artifact.</p>
+                                <h4 style="color: #68d391; margin:0; display: flex; align-items: center;">✔️ VERIFIED: AUTHENTIC MEDIA</h4>
+                                <h1 style="color: #9ae6b4; margin: 10px 0;">{confidence*100:.2f}% Match</h1>
+                                <p style="margin:0; color: #c6f6d5;">No statistically significant manipulations detected in the source artifact.</p>
                             </div>
                             ''', unsafe_allow_html=True)
                             
@@ -271,7 +274,7 @@ with tab1:
                         
                         st.markdown("---")
                         st.markdown("#### 🔍 Error Level Analysis (ELA) Sub-System")
-                        st.markdown('<p style="color:#718096; font-size:0.85rem;">ELA exposes varying levels of JPEG compression. Distinct glowing clusters or harsh edges separating the face from the background indicate pixel compositing (Deepfakes).</p>', unsafe_allow_html=True)
+                        st.markdown('<p style="color:#a0aec0; font-size:0.85rem;">ELA exposes varying levels of JPEG compression. Distinct glowing clusters or harsh edges separating the face from the background indicate pixel compositing (Deepfakes).</p>', unsafe_allow_html=True)
                         ela_result = perform_ela(image, quality=90)
                         st.image(ela_result, use_column_width=True, caption="ELA Forensic Heatmap")
                         
